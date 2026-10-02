@@ -1,0 +1,80 @@
+[
+ {
+  "id": "C00504530",
+  "label": "CLF",
+  "name": "Congressional Leadership Fund",
+  "side": "R"
+ },
+ {
+  "id": "C00075820",
+  "label": "NRCC",
+  "name": "NRCC",
+  "side": "R"
+ },
+ {
+  "id": "C00571703",
+  "label": "SLF",
+  "name": "Senate Leadership Fund",
+  "side": "R"
+ },
+ {
+  "id": "C00960211",
+  "label": "Texas PAC",
+  "name": "Texas Pac",
+  "side": "R"
+ },
+ {
+  "id": "C00027466",
+  "label": "NRSC",
+  "name": "NRSC",
+  "side": "R"
+ },
+ {
+  "id": "C00892471",
+  "label": "MAGA Inc.",
+  "name": "MAGA Inc.",
+  "side": "R"
+ },
+ {
+  "id": "C00960435",
+  "label": "No Going Back PAC",
+  "name": "No Going Back PAC Inc.",
+  "side": "R"
+ },
+ {
+  "id": "C00960443",
+  "label": "Safety & Affordability PAC",
+  "name": "Safety & Affordability PAC Inc.",
+  "side": "R"
+ },
+ {
+  "id": "C00495028",
+  "label": "HMP",
+  "name": "House Majority PAC",
+  "side": "D"
+ },
+ {
+  "id": "C00000935",
+  "label": "DCCC",
+  "name": "DCCC",
+  "side": "D"
+ },
+ {
+  "id": "C00484642",
+  "label": "SMP",
+  "name": "Senate Majority PAC",
+  "side": "D"
+ },
+ {
+  "id": "C00865444",
+  "label": "WinSenate",
+  "name": "WinSenate",
+  "side": "D"
+ },
+ {
+  "id": "C00042366",
+  "label": "DSCC",
+  "name": "DSCC",
+  "side": "D"
+ }
+]
