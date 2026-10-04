@@ -121,12 +121,23 @@ if __name__ == "__main__":
     for off in ("H", "S"):
         pull_keyset(ALL, f"proc_{off}", "/schedules/schedule_e/",
                     {"candidate_office": off, "cycle": CYCLE, "sort": "-expenditure_date"})
-        pull_paged(ALL, f"efile_{off}", "/schedules/schedule_e/efile/",
-                   {"candidate_office": off, "min_filed_date": since, "sort": "-expenditure_date"})
+        # The e-file feed is page-numbered and its sort keys have many ties, so pages overlap
+        # and skip rows. Pull it under several sort orders until every row has been seen once.
+        seen, want = set(), None
+        for i, sort in enumerate(("-expenditure_amount", "expenditure_amount", "-dissemination_date", "-expenditure_date")):
+            tag = f"efile{i}_{off}"
+            pull_paged(ALL, tag, "/schedules/schedule_e/efile/",
+                       {"candidate_office": off, "min_filed_date": since, "sort": sort}, quiet=True)
+            pages = sorted(glob.glob(os.path.join(ALL, f"{tag}_[0-9]*.json")))
+            want = json.load(open(pages[0]))["pagination"]["count"] if pages else 0
+            seen |= {(r["file_number"], r["transaction_id"]) for r in load(ALL, tag)}
+            if len(seen) >= want:
+                break
+        print(f"  efile_{off}: {len(seen)} distinct rows of {want} reported by the API")
 
     by_committee = {}
     for off in ("H", "S"):
-        for r in load(ALL, f"proc_{off}") + load(ALL, f"efile_{off}"):
+        for r in load(ALL, f"proc_{off}") + [x for i in range(4) for x in load(ALL, f"efile{i}_{off}")]:
             if r.get("candidate_office_state"):
                 by_committee.setdefault(r["committee_id"], set()).add(
                     (off, r["candidate_office_state"], (r.get("candidate_office_district") or "00") if off == "H" else "00"))

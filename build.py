@@ -56,7 +56,10 @@ def isnull(x):
 
 # ---------------------------------------------------------------- load
 proc = load(ALL, "proc_H") + load(ALL, "proc_S")
-efile = load(ALL, "efile_H") + load(ALL, "efile_S")
+# The e-file feed is pulled under several sort orders (its pages overlap); keep one copy of
+# each transaction, identified by filing number and transaction ID.
+efile_raw = [r for off in "HS" for i in range(4) for r in load(ALL, f"efile{i}_{off}")]
+efile = list({(r["file_number"], r["transaction_id"]): r for r in efile_raw}.values())
 filings, fec_bycand, fec_totals = [], [], {}
 for c in COMMITTEES:
     d = os.path.join(RAW, c["id"])
@@ -110,7 +113,7 @@ say("# Cleaning log\n")
 say(f"Data pulled {pulled_at}.\n")
 say("## Rows pulled\n")
 say(f"- Processed Schedule E rows, House and Senate candidates, 2026 cycle: {len(P):,} from {P.committee_id.nunique():,} committees")
-say(f"- Raw e-file feed rows from filings received in the last 7 days: {len(E):,}")
+say(f"- Raw e-file feed rows from filings received in the last 7 days: {len(E):,} distinct transactions ({len(efile_raw):,} rows returned across overlapping pages)")
 
 steps = []
 def record(step, df):
@@ -218,7 +221,8 @@ for c in COMMITTEES:
             candidate_party={"R": "REP", "D": "DEM"}[c["side"]], office=r["candidate_office"],
             state=r.get("candidate_office_state"), district=r.get("candidate_office_district"), support_oppose="S",
             amount=float(r.get("expenditure_amount") or 0), expenditure_date=(r.get("expenditure_date") or "")[:10] or None,
-            dissemination_date=None, payee=r.get("payee_name"), purpose=r.get("expenditure_purpose_full"),
+            dissemination_date=None, payee=(r.get("payee_name") or "").strip('"') or None,
+            purpose=(r.get("expenditure_purpose_full") or "").strip('"') or None,
             filing_date=None, pdf_url=r.get("pdf_url"), chain=None, date=(r.get("expenditure_date") or "")[:10] or None,
             date_source="expenditure", coverage_end=None, election_basis="coordinated party expenditure (general election by law)",
             spending_type="coordinated party expenditure"))
