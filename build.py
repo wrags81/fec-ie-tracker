@@ -267,6 +267,9 @@ by_name = known.groupby(["race", "last"]).candidate_party.agg(lambda s: s.value_
 D["candidate_party"] = [p if not isnull(p) else by_id.get(i, by_name.get((r, l)))
                         for p, i, r, l in zip(D.candidate_party, D.candidate_id, D.race, D["last"])]
 
+# State affiliates of the Democratic Party file under their own party codes
+D["candidate_party"] = D.candidate_party.replace({"DFL": "DEM", "DNL": "DEM"})
+
 # ---------------------------------------------------------------- which side each expenditure helps
 # Named committees keep the side set in committees.json. Every other committee is classed by
 # the expenditure itself: supporting a Republican or opposing a Democrat is Republican-side,
