@@ -88,6 +88,11 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <p>Races with earlier spending by a committee and none in the two most recent full weeks or the current partial week.</p>
 <div class="card"><table id="stopped"></table></div>
 
+<h2>Committees in "Other R" and "Other D"</h2>
+<p>Every committee counted in the two "Other" groups, with its general-election independent expenditures to date. A committee is placed on a side one expenditure at a time, so a committee that helps both sides appears once under each. The committee name links to its FEC page.</p>
+<div class="controls"><span class="sub">Side</span><span id="oc-side"></span><input id="oc-q" type="search" placeholder="Search committee or race" style="font:inherit;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);min-width:220px"><span class="sub" id="oc-n"></span></div>
+<div class="card" style="max-height:640px;overflow:auto"><table id="oc"></table></div>
+
 <h2>How current each spender is</h2>
 <div class="card"><table id="currency"></table></div>
 <div id="tip"></div>
@@ -269,6 +274,20 @@ document.querySelectorAll('.mini svg').forEach(svg => {
 });
 
 // ---- entries / stopped / currency
+let ocSide = 'All';
+function ocRender(){
+  btns('#oc-side', [['All','All'],['Other R','Other R'],['Other D','Other D']], ocSide);
+  const q = $('#oc-q').value.trim().toLowerCase();
+  const rows = DATA.other_committees.filter(c => (ocSide === 'All' || c.spender === ocSide) &&
+    (!q || c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) || c.top.some(t => t[0].toLowerCase().includes(q))));
+  $('#oc-n').textContent = `${rows.length.toLocaleString('en-US')} committees, ${fmt(rows.reduce((a, c) => a + c.total, 0))}`;
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  $('#oc').innerHTML = '<tr><th>Committee</th><th class="l">Group</th><th>Total</th><th>Races</th><th class="l">Largest races</th><th>Latest</th></tr>' +
+    rows.map(c => `<tr><td style="white-space:normal;min-width:240px"><a href="https://www.fec.gov/data/committee/${c.id}/" target="_blank" rel="noopener" style="color:inherit">${esc(c.name)}</a></td><td class="l">${dot(c.spender)}${c.spender}</td><td>${full(c.total)}</td><td>${c.races}</td><td class="l">${c.top.map(t => t[0] + ' ' + fmt(t[1])).join(', ')}</td><td>${c.latest}</td></tr>`).join('');
+}
+$('#oc-side').onclick = e => { if (e.target.dataset.k) { ocSide = e.target.dataset.k; ocRender(); } };
+$('#oc-q').oninput = ocRender;
+ocRender();
 $('#ensel').innerHTML = ['All committees', ...cmts].map(s => `<option>${s}</option>`).join('');
 function entries(){
   const f = $('#ensel').value;

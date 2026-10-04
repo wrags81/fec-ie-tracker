@@ -505,6 +505,14 @@ oth = D[D.committee.isin(["Other R", "Other D"])].groupby(["committee", "race", 
 other_top = {}
 for (sp, race), g in oth.groupby(["committee", "race"]):
     other_top.setdefault(sp, {})[race] = [[n, round(float(a))] for n, a in g.sort_values("amount", ascending=False).head(5)[["committee_name", "amount"]].values]
+oc = D[D.committee.isin(["Other R", "Other D"])]
+other_committees = []
+for (sp, cid), g in oc.groupby(["committee", "committee_id"]):
+    rt = g.groupby("race").amount.sum().sort_values(ascending=False)
+    other_committees.append(dict(spender=sp, id=cid, name=g.committee_name.dropna().iloc[0] if g.committee_name.notna().any() else cid,
+                                 total=float(g.amount.sum()), races=int(len(rt)), latest=g.date.max(),
+                                 top=[[r, round(float(v))] for r, v in rt.head(3).items()]))
+other_committees.sort(key=lambda x: -x["total"])
 json.dump(dict(
     weeks=[w.strftime("%Y-%m-%d") for w in weeks], chart_start=CHART_START,
     last_date=D[D.spending_type == "independent expenditure"].date.max(), generated=pd.Timestamp.now().strftime("%Y-%m-%d %H:%M"),
@@ -514,6 +522,6 @@ json.dump(dict(
                     values={r: [round(float(v), 2) for v in p.loc[r]] for r in p.index}) for lab, p in PIV.items()},
     race_totals={r: float(v) for r, v in race_tot.items()}, race_cands=race_cands, other_top=other_top,
     movers=json.loads(M.to_json(orient="records")), entries=entries, stopped=stopped,
-    currency=currency, recon=recon,
+    currency=currency, recon=recon, other_committees=other_committees,
 ), open(os.path.join(OUT, "data.json"), "w"))
 print(f"\nwrote {OUT}")
