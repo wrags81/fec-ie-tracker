@@ -1,4 +1,4 @@
-# 2026 independent expenditure tracker
+# 2026 House and Senate outside spending tracker
 
 Tracks general-election spending by outside groups and party committees across 2026 House and Senate races, using the OpenFEC API: independent expenditures (Schedule E) by every committee, and coordinated party expenditures (Schedule F) by the four party committees. Committees named in `committees.json` are shown individually; all others are grouped as "Other R" or "Other D" by which side each expenditure helps.
 

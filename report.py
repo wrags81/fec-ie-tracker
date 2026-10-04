@@ -7,7 +7,7 @@ data = json.load(open(os.path.join(HERE, "output", "data.json")))
 HTML = r"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2026 Independent Expenditure Tracker</title>
+<title>2026 House and Senate Outside Spending Tracker</title>
 <style>
 :root{color-scheme:light;--bg:#fcfcfb;--panel:#ffffff;--line:#e4e3df;--text:#0b0b0b;--text2:#52514e;--muted:#8a8985;
 --r:#e34948;--d:#2a78d6;--zero:#f0efec;
@@ -46,7 +46,7 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 #tip{position:fixed;pointer-events:none;background:var(--text);color:var(--bg);padding:6px 9px;border-radius:6px;font-size:12px;display:none;z-index:9;max-width:300px}
 .note{font-size:12px;color:var(--text2)}
 </style></head><body><main>
-<h1>2026 Independent Expenditure Tracker</h1>
+<h1>2026 House and Senate Outside Spending Tracker</h1>
 <div class="sub" id="asof"></div>
 <div class="tiles" id="tiles"></div>
 <p class="note">General-election spending in House and Senate races. Named committees are shown individually; every other committee making general-election independent expenditures is grouped as "Other R" or "Other D" by which side each expenditure helps. NRCC, NRSC, DCCC and DSCC figures are coordinated party expenditures, which are reported only in monthly reports, so they run about a month or more behind the independent expenditure data. Weeks start Monday and use the dissemination date, falling back to the expenditure date. The current week is partial. Time charts begin with the week of <span id="cs"></span>, which contains September 1; totals count all general-election spending to date.</p>
