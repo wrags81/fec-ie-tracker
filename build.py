@@ -245,6 +245,17 @@ def race_of(office, state, district):
     return f"{state}-AL" if d == "00" else f"{state}-{d}"
 D["district"] = D.apply(lambda r: "00" if (r.office == "H" and r.state in AT_LARGE) else (None if r.office == "S" else r.district), axis=1)
 D["race"] = D.apply(lambda r: race_of(r.office, r.state, r.district), axis=1)
+# Filer errors: a row whose state disagrees with the state in its candidate ID is moved to the
+# race that candidate's other rows are in (same ID, matching state and office).
+idst = D.candidate_id.str[2:4]
+okrow = D.candidate_id.notna() & (D.candidate_id.str[0] == D.office) & D.race.notna()
+home = D[okrow & (idst == D.state)].groupby(["candidate_id", "race"]).amount.sum().reset_index() \
+        .sort_values("amount", ascending=False).drop_duplicates("candidate_id").set_index("candidate_id").race
+wrong = okrow & (idst != D.state) & D.candidate_id.isin(home.index)
+moved = D[wrong].assign(to=D[wrong].candidate_id.map(home))
+D.loc[wrong, "race"] = moved.to
+D.loc[wrong, "state"] = moved.to.str[:2]
+D.loc[wrong & (D.office == "H"), "district"] = moved.to.str[3:].replace("AL", "00")
 unmapped = D[D.race.isna()]
 D = D[D.race.notna()].copy()
 
@@ -445,6 +456,16 @@ if race_gaps:
 else:
     say("None.")
 
+say("\n## Rows moved to a different race\n")
+if len(moved):
+    say("The state on these rows disagreed with the state in the candidate ID, so they were moved to the candidate's race.\n")
+    say("| Committee | Candidate | Reported as | Moved to | Rows | Amount |")
+    say("|---|---|---|---|---|---|")
+    mv = moved.assign(was=[race_of(o, st, d) for o, st, d in zip(moved.office, moved.state, moved.district)])
+    for k, g in mv.groupby(["committee_name", "candidate_name", "was", "to"]):
+        say(f"| {k[0]} | {k[1]} | {k[2]} | {k[3]} | {len(g)} | {money(g.amount.sum())} |")
+else:
+    say("None.")
 say("\n## Expenditures not mapped to a race\n")
 if len(unmapped):
     say(f"{len(unmapped):,} general-election rows, {money(unmapped.amount.sum())}, had no usable state or House district. Largest:\n")

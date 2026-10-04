@@ -54,7 +54,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 5. Dropped: not 2026 general (special) | HMP | 6 | $930,876 |
 | 5. Dropped: not 2026 general (special) | **All** | **701** | **$27,006,480** |
 
-Final cleaned general-election independent expenditure rows: **10,079**, $1,148,804,187.
+Final cleaned general-election independent expenditure rows: **10,088**, $1,148,820,110.
 
 Coordinated party expenditure rows added (Schedule F): **267**, $62,898,456.
 - NRSC filing 2014360: 54 Schedule F rows read from the raw filing because the API had not loaded them
@@ -63,14 +63,13 @@ Notice cut-off for the named committees (latest regular-report coverage end date
 
 ## Expenditures by other committees that could not be assigned to a party side
 
-42 rows, $1,000,283,203. These are left out of the tables and charts.
+33 rows, $1,000,267,280. These are left out of the tables and charts.
 
 | Race | Candidate | Party | Support/oppose | Rows | Amount |
 |---|---|---|---|---|---|
 | FL-SEN | BETTIS, SHAWN STEFAN | nan | S | 1 | $1,000,000,000 |
 | IA-01 | BRIDGFORD, MICHAEL | IND | S | 6 | $158,561 |
 | NY-23 | LANGWORTHY, NICK | nan | S | 1 | $95,900 |
-| IA-03 | BALDACCI, JOHN ELIAS | nan | O | 9 | $15,923 |
 | TX-03 | SELF, KEITH ALAN MR | nan | S | 12 | $9,613 |
 | TX-28 | CUELLER, ENRIQUE ROBERTO | nan | S | 1 | $2,058 |
 | WI-04 | BURKS, ARTHUR | nan | S | 5 | $856 |
@@ -122,6 +121,22 @@ The FEC's `/schedules/schedule_e/by_candidate/` aggregates and committee totals 
 | SLF | NH-SEN | $239,116 | $11,166 |
 | SLF | OH-SEN | $1,154,416 | $1,034,015 |
 
+## Rows moved to a different race
+
+The state on these rows disagreed with the state in the candidate ID, so they were moved to the candidate's race.
+
+| Committee | Candidate | Reported as | Moved to | Rows | Amount |
+|---|---|---|---|---|---|
+| INDIGO PAC | GRAY, ADAM | OH-09 | CA-13 | 1 | $95 |
+| STRATEGIC MAJORITY PAC | FITZPATRICK, BRIAN | CA-22 | PA-01 | 1 | $22,910 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | BALDACCI, JOHN ELIAS | IA-03 | ME-02 | 9 | $15,923 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | EL-SAYED, ABDUL | MN-SEN | MI-SEN | 1 | $1 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | GARRIOTT, SARAH TRONE | CA-13 | IA-03 | 9 | $15,923 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | GRAY, ADAM C. | ME-02 | CA-13 | 9 | $15,923 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | MANZUR, KARISHMA | NC-SEN | NH-SEN | 2 | $166 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | OSBORN, DAN | NV-SEN | NE-SEN | 1 | $92 |
+| THE CONSERVATIVE CAUCUS DBA AMERICANS FOR CONSTITUTIONAL LIBERTY | PAPPAS, CHRIS | NC-SEN | NH-SEN | 2 | $166 |
+
 ## Expenditures not mapped to a race
 
 7 general-election rows, $12,000,000,300, had no usable state or House district. Largest:
@@ -150,7 +165,7 @@ The FEC's `/schedules/schedule_e/by_candidate/` aggregates and committee totals 
 | MAGA Inc. | 2026-10-03 | 2026-10-03 | 6 | $25,000,000 |
 | No Going Back PAC | 2026-10-02 | 2026-10-03 | 786 | $128,265,960 |
 | Safety & Affordability PAC | 2026-09-30 | 2026-10-01 | 3 | $1,281,250 |
-| Other R | 2026-10-04 | 2026-10-04 | 3,664 | $243,364,408 |
+| Other R | 2026-10-04 | 2026-10-04 | 3,673 | $243,380,331 |
 | HMP | 2026-10-02 | 2026-10-02 | 446 | $47,992,734 |
 | DCCC | 2026-08-31 | n/a | 100 | $5,243,971 |
 | SMP | no general-election spending | n/a | 0 | $0 |
