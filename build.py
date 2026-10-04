@@ -297,6 +297,14 @@ D["week_start"] = (dts - pd.to_timedelta(dts.dt.weekday, unit="D")).dt.strftime(
 D["filing_url"] = [f"https://docquery.fec.gov/cgi-bin/forms/{c}/{int(f)}/" for c, f in zip(D.committee_id, D.file_number)]
 names = D[D.candidate_name.notna()].groupby("cand_key").candidate_name.agg(lambda s: s.value_counts().index[0]).to_dict()
 D["candidate_name"] = D.cand_key.map(names)
+# Preferred display names, keyed by FEC candidate ID (candidate_names.json). Applied to every
+# row for that candidate, including rows in the same race that carry the surname but no ID.
+PREFERRED = json.load(open(os.path.join(HERE, "candidate_names.json")))
+for cid_, nm_ in PREFERRED.items():
+    hit = D.candidate_id == cid_
+    if hit.any():
+        race_, last_ = D[hit].race.iloc[0], nm_.split(",")[0].strip().upper()
+        D.loc[hit | ((D.race == race_) & (D["last"] == last_)), "candidate_name"] = nm_
 
 say("\n## Rows added and dropped at each step\n")
 say("Independent expenditures only. \"All other committees\" is every committee not named in committees.json.\n")
