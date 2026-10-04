@@ -20,7 +20,7 @@ p{margin:4px 0 12px;color:var(--text2);max-width:80ch}
 .sub{color:var(--text2);font-size:13px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:16px 0}
 .tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
-.tile b{display:block;font-size:22px;font-variant-numeric:tabular-nums}.tile span{color:var(--text2);font-size:12px}
+.tile b{display:block;font-size:22px;font-variant-numeric:tabular-nums}.tiles.big{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:0}.tiles.big .tile b{font-size:30px}.tiles.big .tile span{font-size:13px}.tile span{color:var(--text2);font-size:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;margin:12px 0;overflow-x:auto}
 .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
 button,select{font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
@@ -42,6 +42,7 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 </style></head><body><main>
 <h1>2026 House and Senate Outside Spending Tracker</h1>
 <div class="sub" id="asof"></div>
+<div class="tiles big" id="toptiles"></div>
 <div class="tiles" id="tiles"></div>
 <p class="note">General-election spending in House and Senate races. Named committees are shown individually; every other committee making general-election independent expenditures is grouped as "Other R" or "Other D" by which side each expenditure helps. NRCC, NRSC, DCCC and DSCC figures are coordinated party expenditures, which are reported only in monthly reports, so they run about a month or more behind the independent expenditure data. Weeks start Monday and use the dissemination date, falling back to the expenditure date. The current week is partial. Time charts begin with the week of <span id="cs"></span>, which contains September 1; totals count all general-election spending to date.</p>
 
@@ -113,6 +114,9 @@ const cmts = spenders.filter(s => !s.startsWith('All '));
 // ---- header
 $('#asof').textContent = `Independent expenditure data through ${DATA.last_date}. Generated ${DATA.generated}. Source: OpenFEC Schedule E (processed data plus the raw e-file feed) and Schedule F.`;
 const tot = s => DATA.heat[s] ? Object.values(DATA.heat[s].values).reduce((a, v) => a + v.reduce((x, y) => x + y, 0), 0) : 0;
+const totOff = (s, sen) => DATA.heat[s] ? Object.entries(DATA.heat[s].values).filter(([race]) => race.endsWith('-SEN') === sen).reduce((a, [, v]) => a + v.reduce((x, y) => x + y, 0), 0) : 0;
+$('#toptiles').innerHTML = [['All R committees', false, 'House, Republican side'], ['All D committees', false, 'House, Democratic side'], ['All R committees', true, 'Senate, Republican side'], ['All D committees', true, 'Senate, Democratic side']]
+  .map(([s, sen, l]) => `<div class="tile"><b>${fmt(totOff(s, sen))}</b><span>${dot(s)}${l}</span></div>`).join('');
 $('#tiles').innerHTML = [['All R committees','Republican side, total'],['All D committees','Democratic side, total']]
   .map(([s,l]) => `<div class="tile"><b>${fmt(tot(s))}</b><span>${dot(s)}${l}</span></div>`).join('') +
   cmts.map(s => `<div class="tile"><b>${fmt(tot(s))}</b><span>${dot(s)}${s}</span></div>`).join('');
