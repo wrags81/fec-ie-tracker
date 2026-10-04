@@ -3,78 +3,130 @@
   "id": "C00504530",
   "label": "CLF",
   "name": "Congressional Leadership Fund",
-  "side": "R"
+  "side": "R",
+  "chart_column": "CLF"
  },
  {
   "id": "C00075820",
   "label": "NRCC",
   "name": "NRCC",
-  "side": "R"
+  "side": "R",
+  "chart_column": "NRCC",
+  "coordinated": true
  },
  {
   "id": "C00571703",
   "label": "SLF",
   "name": "Senate Leadership Fund",
-  "side": "R"
+  "side": "R",
+  "chart_column": "SLF"
  },
  {
   "id": "C00960211",
   "label": "Texas PAC",
   "name": "Texas Pac",
-  "side": "R"
+  "side": "R",
+  "chart_column": "SLF"
+ },
+ {
+  "id": "C00961227",
+  "label": "Cornhusker Majority",
+  "name": "Cornhusker Majority",
+  "side": "R",
+  "chart_column": "SLF"
+ },
+ {
+  "id": "C00961342",
+  "label": "The Maine Standard",
+  "name": "The Maine Standard",
+  "side": "R",
+  "chart_column": "SLF"
  },
  {
   "id": "C00027466",
   "label": "NRSC",
   "name": "NRSC",
-  "side": "R"
+  "side": "R",
+  "chart_column": "NRSC",
+  "coordinated": true
  },
  {
   "id": "C00892471",
   "label": "MAGA Inc.",
   "name": "MAGA Inc.",
-  "side": "R"
+  "side": "R",
+  "chart_column": "Trump-aligned"
  },
  {
   "id": "C00960435",
   "label": "No Going Back PAC",
   "name": "No Going Back PAC Inc.",
-  "side": "R"
+  "side": "R",
+  "chart_column": "Trump-aligned"
  },
  {
   "id": "C00960443",
   "label": "Safety & Affordability PAC",
   "name": "Safety & Affordability PAC Inc.",
-  "side": "R"
+  "side": "R",
+  "chart_column": "Trump-aligned"
  },
  {
   "id": "C00495028",
   "label": "HMP",
   "name": "House Majority PAC",
-  "side": "D"
+  "side": "D",
+  "chart_column": "HMP"
  },
  {
   "id": "C00000935",
   "label": "DCCC",
   "name": "DCCC",
-  "side": "D"
+  "side": "D",
+  "chart_column": "DCCC",
+  "coordinated": true
  },
  {
   "id": "C00484642",
   "label": "SMP",
   "name": "Senate Majority PAC",
-  "side": "D"
+  "side": "D",
+  "chart_column": "SMP"
  },
  {
   "id": "C00865444",
   "label": "WinSenate",
   "name": "WinSenate",
-  "side": "D"
+  "side": "D",
+  "chart_column": "SMP"
+ },
+ {
+  "id": "C00962308",
+  "label": "Texas Forever",
+  "name": "Texas Forever",
+  "side": "D",
+  "chart_column": "SMP"
+ },
+ {
+  "id": "C00957522",
+  "label": "North Star",
+  "name": "North Star",
+  "side": "D",
+  "chart_column": "SMP"
+ },
+ {
+  "id": "C00953398",
+  "label": "The Georgia Way",
+  "name": "The Georgia Way",
+  "side": "D",
+  "chart_column": "SMP"
  },
  {
   "id": "C00042366",
   "label": "DSCC",
   "name": "DSCC",
-  "side": "D"
+  "side": "D",
+  "chart_column": "DSCC",
+  "coordinated": true
  }
 ]

@@ -49,7 +49,7 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <h1>2026 Independent Expenditure Tracker</h1>
 <div class="sub" id="asof"></div>
 <div class="tiles" id="tiles"></div>
-<p class="note">General-election independent expenditures (Schedule E) only. Weeks start Monday and use the dissemination date, falling back to the expenditure date. The current week is partial. NRCC, NRSC, DCCC, DSCC and Senate Majority PAC have reported no independent expenditures this cycle, so they do not appear in the charts.</p>
+<p class="note">General-election spending in House and Senate races. Named committees are shown individually; every other committee making general-election independent expenditures is grouped as "Other R" or "Other D" by which side each expenditure helps. NRCC, NRSC, DCCC and DSCC figures are coordinated party expenditures, which are reported only in monthly reports, so they run about a month or more behind the independent expenditure data. Weeks start Monday and use the dissemination date, falling back to the expenditure date. The current week is partial. Time charts begin with the week of <span id="cs"></span>, which contains September 1; totals count all general-election spending to date.</p>
 
 <h2>Which races are being prioritized</h2>
 <p>Races ranked by dollars from the tracked committees. Each race has one bar per party side. Switch the period to see where recent money is going, as opposed to the total to date.</p>
@@ -69,7 +69,7 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <div class="card"><table id="movers"></table><div class="note" id="moversnote"></div></div>
 
 <h2>Weekly spending by race</h2>
-<p>One heatmap per committee, then each party side combined. Races are sorted by total spend. Colour shows dollars in that week, scaled within each heatmap.</p>
+<p>One heatmap per spender, then each party side combined. Races are sorted by spend since the first week shown. Colour shows dollars in that week, scaled within each heatmap.</p>
 <div id="heat"></div>
 
 <h2>Cumulative spending: top 15 House races</h2>
@@ -88,7 +88,7 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <p>Races with earlier spending by a committee and none in the two most recent full weeks or the current partial week.</p>
 <div class="card"><table id="stopped"></table></div>
 
-<h2>How current each committee is</h2>
+<h2>How current each spender is</h2>
 <div class="card"><table id="currency"></table></div>
 <div id="tip"></div>
 </main>
@@ -98,7 +98,7 @@ const $ = s => document.querySelector(s);
 const fmt = v => v >= 1e6 ? '$' + (v/1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + Math.round(v/1e3) + 'K' : '$' + Math.round(v);
 const full = v => '$' + Math.round(v).toLocaleString('en-US');
 const wk = s => { const d = new Date(s + 'T00:00:00'); return (d.getMonth()+1) + '/' + d.getDate(); };
-const side = {}; DATA.committees.forEach(c => side[c.label] = c.side); side['All R committees'] = 'R'; side['All D committees'] = 'D';
+const side = Object.assign({}, DATA.spender_side); side['All R committees'] = 'R'; side['All D committees'] = 'D';
 const dot = sp => `<i class="dot" style="background:var(--${side[sp] === 'R' ? 'r' : 'd'})"></i>`;
 const tip = $('#tip');
 function showTip(e, html){ tip.innerHTML = html; tip.style.display = 'block';
@@ -106,11 +106,13 @@ function showTip(e, html){ tip.innerHTML = html; tip.style.display = 'block';
   tip.style.left = x + 'px'; tip.style.top = y + 'px'; }
 function hideTip(){ tip.style.display = 'none'; }
 const W = DATA.weeks, NW = W.length;
+const CS = Math.max(0, W.findIndex(w => w >= DATA.chart_start));
+document.querySelector('#cs').textContent = wk(W[CS]);
 const spenders = Object.keys(DATA.heat);
 const cmts = spenders.filter(s => !s.startsWith('All '));
 
 // ---- header
-$('#asof').textContent = `Data through ${DATA.last_date}. Generated ${DATA.generated}. Source: OpenFEC Schedule E (processed data plus the raw e-file feed).`;
+$('#asof').textContent = `Independent expenditure data through ${DATA.last_date}. Generated ${DATA.generated}. Source: OpenFEC Schedule E (processed data plus the raw e-file feed) and Schedule F.`;
 const tot = s => DATA.heat[s] ? Object.values(DATA.heat[s].values).reduce((a, v) => a + v.reduce((x, y) => x + y, 0), 0) : 0;
 $('#tiles').innerHTML = [['All R committees','Republican side, total'],['All D committees','Democratic side, total']]
   .map(([s,l]) => `<div class="tile"><b>${fmt(tot(s))}</b><span>${dot(s)}${l}</span></div>`).join('') +
@@ -134,7 +136,8 @@ function prio(){
   let s = `<svg width="${width}" height="${rows.length * rh + 6}" role="img" aria-label="Races ranked by spending, by party side">`;
   rows.forEach((x, i) => {
     const y = i * rh + 4, who = (DATA.race_cands[x.race] || []).slice(0, 2).map(c => c.split(',')[0]).join(' / ');
-    const detail = cmts.map(c => [c, val(c, x.race, n, 0)]).filter(e => e[1] > 0).sort((a, b) => b[1] - a[1]).map(e => `${e[0]}: <b>${full(e[1])}</b>`).join('<br>');
+    const detail = cmts.map(c => [c, val(c, x.race, n, 0)]).filter(e => e[1] > 0).sort((a, b) => b[1] - a[1]).map(e => `${e[0]}: <b>${full(e[1])}</b>`).join('<br>') +
+      ['Other R', 'Other D'].map(o => { const t = ((DATA.other_top[o] || {})[x.race] || []).slice(0, 3).map(e => e[0]).join(', '); return t ? `<br><i>${o}, largest to date: ${t}</i>` : ''; }).join('');
     s += `<text class="lab" x="0" y="${y + 12}" style="font-weight:600">${i + 1}. ${x.race}</text><text x="0" y="${y + 25}">${who.slice(0, 24)}</text>`;
     [['R','--r'],['D','--d']].forEach(([k, c], j) => {
       const w = x[k] / max * bw, by = y + 2 + j * 13;
@@ -195,15 +198,17 @@ movers();
 // ---- heatmaps
 const steps = ['--h1','--h2','--h3','--h4','--h5','--h6','--h7'];
 function heat(sp){
-  const h = DATA.heat[sp], races = h.races;
-  let first = NW - 1;
-  races.forEach(r => { const i = h.values[r].findIndex(v => v !== 0); if (i >= 0 && i < first) first = i; });
-  first = Math.max(0, Math.min(first, NW - 6));
-  const cols = W.slice(first), max = Math.max(...races.flatMap(r => h.values[r]));
-  const cw = Math.max(22, Math.min(46, Math.floor(820 / cols.length))), ch = 18, lx = 70, tx = 78;
+  const h = DATA.heat[sp], first = CS, cols = W.slice(first);
+  const since = r => h.values[r].slice(first).reduce((a, b) => a + b, 0);
+  let races = h.races.filter(r => since(r) > 0).sort((a, b) => since(b) - since(a));
+  const cur = DATA.currency.find(c => c.committee === sp), kind = cur && cur.kind !== 'independent expenditures' ? ' · ' + cur.kind : '';
+  if (!races.length) return `<div class="card"><h3>${dot(sp)}${sp}</h3><div class="sub">${fmt(tot(sp))} total to date${kind}. No spending dated since the week of ${wk(W[CS])} in the data${cur && cur.latest ? '; latest transaction ' + cur.latest : ''}.</div></div>`;
+  const nAll = races.length; races = races.slice(0, 40);
+  const max = Math.max(...races.flatMap(r => h.values[r].slice(first)));
+  const cw = Math.max(22, Math.min(64, Math.floor(820 / cols.length))), ch = 18, lx = 70, tx = 78;
   const width = lx + cols.length * cw + tx, height = 22 + races.length * ch + 4;
   let s = `<svg width="${width}" height="${height}" role="img" aria-label="${sp} weekly spending by race">`;
-  cols.forEach((w, j) => { if (cols.length <= 16 || j % 2 === (cols.length - 1) % 2) s += `<text x="${lx + j*cw + cw/2}" y="14" text-anchor="middle">${wk(w)}</text>`; });
+  cols.forEach((w, j) => { s += `<text x="${lx + j*cw + cw/2}" y="14" text-anchor="middle">${wk(w)}</text>`; });
   races.forEach((r, i) => {
     const y = 22 + i * ch, vals = h.values[r].slice(first);
     s += `<text class="lab" x="${lx - 8}" y="${y + 13}" text-anchor="end">${r}</text>`;
@@ -211,11 +216,11 @@ function heat(sp){
       const k = v <= 0 ? null : steps[Math.min(6, Math.floor(Math.sqrt(v / max) * 7))];
       s += `<rect x="${lx + j*cw + 1}" y="${y + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="var(${k || '--zero'})" data-t="${r} · week of ${wk(cols[j])}<br><b>${full(v)}</b>"></rect>`;
     });
-    s += `<text x="${lx + cols.length*cw + 8}" y="${y + 13}">${fmt(h.values[r].reduce((a, b) => a + b, 0))}</text>`;
+    s += `<text x="${lx + cols.length*cw + 8}" y="${y + 13}">${fmt(since(r))}</text>`;
   });
   s += '</svg>';
-  const leg = `<div class="legend"><span>${steps.map(k => `<i class="swatch" style="background:var(${k})"></i>`).join('')} low to high (max ${fmt(max)} in a week)</span><span><i class="swatch" style="background:var(--zero)"></i> no spending</span><span>Right column: total</span></div>`;
-  return `<div class="card"><h3>${dot(sp)}${sp}</h3><div class="sub">${races.length} races, ${fmt(tot(sp))} total</div>${leg}${s}</div>`;
+  const leg = `<div class="legend"><span>${steps.map(k => `<i class="swatch" style="background:var(${k})"></i>`).join('')} low to high (max ${fmt(max)} in a week)</span><span><i class="swatch" style="background:var(--zero)"></i> no spending</span><span>Right column: total since the week of ${wk(W[CS])}</span></div>`;
+  return `<div class="card"><h3>${dot(sp)}${sp}</h3><div class="sub">${nAll > 40 ? 'Top 40 of ' + nAll : nAll} races since the week of ${wk(W[CS])}; ${fmt(tot(sp))} total to date${kind}</div>${leg}${s}</div>`;
 }
 $('#heat').innerHTML = spenders.map(heat).join('');
 $('#heat').addEventListener('mousemove', e => { const t = e.target.dataset && e.target.dataset.t; t ? showTip(e, t) : hideTip(); });
@@ -228,9 +233,9 @@ function sideSeries(race){
     const v = (DATA.heat[sp] && DATA.heat[sp].values[race]) || W.map(() => 0); let c = 0; out[k] = v.map(x => c += x); });
   return out;
 }
-const START = Math.max(0, NW - 12);
+const START = Math.min(CS, NW - 2);
 function mini(race){
-  const s = sideSeries(race), w = 250, h = 130, l = 6, r = 58, t = 16, b = 20, n = NW - START;
+  const s = sideSeries(race), w = 250, h = 130, l = 6, r = 66, t = 16, b = 20, n = NW - START;
   const max = Math.max(s.R[NW-1], s.D[NW-1], 1), x = i => l + (i - START) / (n - 1) * (w - l - r), y = v => t + (1 - v / max) * (h - t - b);
   const path = a => a.slice(START).map((v, i) => (i ? 'L' : 'M') + x(i + START).toFixed(1) + ' ' + y(v).toFixed(1)).join('');
   let ry = y(s.R[NW-1]) + 4, dy = y(s.D[NW-1]) + 4;
@@ -255,8 +260,8 @@ document.querySelectorAll('.mini svg').forEach(svg => {
   const race = svg.dataset.race, s = sideSeries(race), cross = svg.querySelector('.cross'), n = NW - START;
   svg.addEventListener('mousemove', e => {
     const bb = svg.getBoundingClientRect(), px = (e.clientX - bb.left) / bb.width * 250;
-    const i = Math.max(0, Math.min(n - 1, Math.round((px - 6) / (250 - 6 - 58) * (n - 1)))) + START;
-    const cx = 6 + (i - START) / (n - 1) * (250 - 6 - 58);
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - 6) / (250 - 6 - 66) * (n - 1)))) + START;
+    const cx = 6 + (i - START) / (n - 1) * (250 - 6 - 66);
     cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible');
     showTip(e, `${race} · through week of ${wk(W[i])}<br>R side: <b>${full(s.R[i])}</b><br>D side: <b>${full(s.D[i])}</b>`);
   });
@@ -277,8 +282,8 @@ const st = DATA.stopped.filter(e => !e.spender.startsWith('All ')).sort((a, b) =
 $('#stopped').innerHTML = st.length ? '<tr><th>Committee</th><th class="l">Race</th><th>Last week with spending</th><th>Full weeks silent</th><th>Weeks active</th><th>Total to date</th></tr>' +
   st.map(e => `<tr><td>${dot(e.spender)}${e.spender}</td><td class="l">${e.race}</td><td>${e.last_week}</td><td>${e.weeks_silent}</td><td>${e.active_weeks}</td><td>${full(e.total)}</td></tr>`).join('')
   : '<tr><td>No race meets this test.</td></tr>';
-$('#currency').innerHTML = '<tr><th>Committee</th><th>Latest transaction date</th><th>Latest filing received</th><th>Regular reports cover through</th><th>Rows</th><th>General-election total</th></tr>' +
-  DATA.currency.map(c => `<tr><td>${dot(c.committee)}${c.committee}</td><td>${c.latest || 'no independent expenditures'}</td><td>${c.latest_filing || ''}</td><td>${c.coverage_end || 'none filed'}</td><td>${c.rows}</td><td>${full(c.total)}</td></tr>`).join('');
+$('#currency').innerHTML = '<tr><th>Spender</th><th class="l">Type</th><th>Latest transaction date</th><th>Latest filing received</th><th>Rows</th><th>General-election total</th></tr>' +
+  DATA.currency.map(c => `<tr><td>${dot(c.committee)}${c.committee}${c.ncommittees > 1 ? ' (' + c.ncommittees + ' committees)' : ''}</td><td class="l">${c.kind}</td><td>${c.latest || 'none'}</td><td>${c.latest_filing || ''}</td><td>${c.rows.toLocaleString('en-US')}</td><td>${full(c.total)}</td></tr>`).join('');
 </script></body></html>
 """
 
