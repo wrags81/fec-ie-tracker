@@ -73,7 +73,8 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <p>One heatmap per spender, then each party side combined. Races are sorted by spend since the first week shown. Colour shows dollars in that week, scaled within each heatmap.</p>
 <div id="heat"></div>
 
-<h2>Cumulative spending: top 15 House races</h2>
+<h2>Cumulative spending: top 30 House races</h2>
+<p>The 30 House races with the most general-election spending to date, largest first.</p>
 <div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale; the top gridline is labelled.</span></div>
 <div class="grid" id="house"></div>
 <h2>Cumulative spending: Senate races</h2>
@@ -263,7 +264,7 @@ function mini(race){
   <rect x="${l}" y="${t}" width="${w - l - r}" height="${h - t - b}" fill="transparent"/></svg></div>`;
 }
 const byTot = Object.entries(DATA.race_totals).sort((a, b) => b[1] - a[1]).map(e => e[0]);
-$('#house').innerHTML = byTot.filter(r => !r.endsWith('-SEN')).slice(0, 15).map(mini).join('');
+$('#house').innerHTML = byTot.filter(r => !r.endsWith('-SEN')).slice(0, 30).map(mini).join('');
 $('#senate').innerHTML = byTot.filter(r => r.endsWith('-SEN')).map(mini).join('');
 document.querySelectorAll('.mini svg').forEach(svg => {
   const race = svg.dataset.race, s = sideSeries(race), cross = svg.querySelector('.cross'), n = NW - START;
