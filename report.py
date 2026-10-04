@@ -73,8 +73,8 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <p>One heatmap per spender, then each party side combined. Races are sorted by spend since the first week shown. Colour shows dollars in that week, scaled within each heatmap.</p>
 <div id="heat"></div>
 
-<h2>Cumulative spending: top 30 House races</h2>
-<p>The 30 House races with the most general-election spending to date, largest first.</p>
+<h2>Cumulative spending: 30 most competitive House races</h2>
+<p id="cooknote"></p>
 <div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale; the top gridline is labelled.</span></div>
 <div class="grid" id="house"></div>
 <h2>Cumulative spending: Senate races</h2>
@@ -251,7 +251,7 @@ function mini(race){
   let ry = y(s.R[NW-1]) + 4, dy = y(s.D[NW-1]) + 4;
   if (Math.abs(ry - dy) < 12) { if (ry <= dy) { ry -= (12 - (dy - ry)) / 2; dy = ry + 12; } else { dy -= (12 - (ry - dy)) / 2; ry = dy + 12; } }
   const who = (DATA.race_cands[race] || []).slice(0, 3).join(', ');
-  return `<div class="mini"><h3>${race} <span class="sub" style="font-weight:400">${fmt(DATA.race_totals[race])}</span></h3><div class="who" title="${who}">${who}</div>
+  return `<div class="mini"><h3>${race} <span class="sub" style="font-weight:400">${fmt(DATA.race_totals[race] || 0)}${RATING[race] ? ' · ' + RATING[race] : ''}</span></h3><div class="who" title="${who}">${who}</div>
   <svg width="100%" viewBox="0 0 ${w} ${h}" data-race="${race}" role="img" aria-label="${race} cumulative spending by side">
   <line x1="${l}" x2="${w - r}" y1="${t}" y2="${t}" stroke="var(--line)"/><line x1="${l}" x2="${w - r}" y1="${h - b}" y2="${h - b}" stroke="var(--line)"/>
   <text x="${l}" y="${t - 4}">${fmt(max)}</text>
@@ -264,7 +264,13 @@ function mini(race){
   <rect x="${l}" y="${t}" width="${w - l - r}" height="${h - t - b}" fill="transparent"/></svg></div>`;
 }
 const byTot = Object.entries(DATA.race_totals).sort((a, b) => b[1] - a[1]).map(e => e[0]);
-$('#house').innerHTML = byTot.filter(r => !r.endsWith('-SEN')).slice(0, 30).map(mini).join('');
+const RATING = {}; Object.entries(DATA.cook.ratings).forEach(([k, v]) => v.forEach(x => RATING[x] = k));
+const spendOrder = (a, b) => (DATA.race_totals[b] || 0) - (DATA.race_totals[a] || 0);
+const tossups = DATA.cook.ratings['Toss Up'].slice().sort(spendOrder);
+const leans = DATA.cook.ratings['Lean Democrat'].concat(DATA.cook.ratings['Lean Republican']).sort(spendOrder);
+const house30 = tossups.concat(leans.slice(0, Math.max(0, 30 - tossups.length)));
+$('#cooknote').innerHTML = `Races are chosen by <a href="${DATA.cook.url}" target="_blank" rel="noopener" style="color:inherit">${DATA.cook.source}</a> as of ${DATA.cook.as_of}: all ${tossups.length} Toss Up races, then the ${house30.length - tossups.length} Lean Democrat or Lean Republican races with the most spending (of ${leans.length} rated Lean). Within each group, races are ordered by spending. The ratings list is fixed in cook_ratings.json and does not update on its own.`;
+$('#house').innerHTML = house30.map(mini).join('');
 $('#senate').innerHTML = byTot.filter(r => r.endsWith('-SEN')).map(mini).join('');
 document.querySelectorAll('.mini svg').forEach(svg => {
   const race = svg.dataset.race, s = sideSeries(race), cross = svg.querySelector('.cross'), n = NW - START;

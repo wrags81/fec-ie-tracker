@@ -523,5 +523,6 @@ json.dump(dict(
     race_totals={r: float(v) for r, v in race_tot.items()}, race_cands=race_cands, other_top=other_top,
     movers=json.loads(M.to_json(orient="records")), entries=entries, stopped=stopped,
     currency=currency, recon=recon, other_committees=other_committees,
+    cook=json.load(open(os.path.join(HERE, "cook_ratings.json"))),
 ), open(os.path.join(OUT, "data.json"), "w"))
 print(f"\nwrote {OUT}")
