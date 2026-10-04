@@ -269,8 +269,9 @@ const spendOrder = (a, b) => (DATA.race_totals[b] || 0) - (DATA.race_totals[a] |
 const tossups = DATA.cook.ratings['Toss Up'].slice().sort(spendOrder);
 const leans = DATA.cook.ratings['Lean Democrat'].concat(DATA.cook.ratings['Lean Republican']).sort(spendOrder);
 const FLOOR = 'VA-01';  // show every Lean race with at least as much spending as this one
-const house30 = tossups.concat(leans.filter(x => (DATA.race_totals[x] || 0) >= (DATA.race_totals[FLOOR] || 0)));
-$('#cooknote').innerHTML = `Races are chosen by <a href="${DATA.cook.url}" target="_blank" rel="noopener" style="color:inherit">${DATA.cook.source}</a> as of ${DATA.cook.as_of}: all ${tossups.length} Toss Up races, then the ${house30.length - tossups.length} Lean Democrat or Lean Republican races with the most spending, down to ${FLOOR} (of ${leans.length} rated Lean). Within each group, races are ordered by spending. The ratings list is fixed in cook_ratings.json and does not update on its own.`;
+const leanR = new Set(DATA.cook.ratings['Lean Republican']);
+const house30 = tossups.concat(leans.filter(x => leanR.has(x) || (DATA.race_totals[x] || 0) >= (DATA.race_totals[FLOOR] || 0)));
+$('#cooknote').innerHTML = `Races are chosen by <a href="${DATA.cook.url}" target="_blank" rel="noopener" style="color:inherit">${DATA.cook.source}</a> as of ${DATA.cook.as_of}: all ${tossups.length} Toss Up races, then every Lean Republican race (${leanR.size}) and the Lean Democrat races with at least as much spending as ${FLOOR} (${house30.filter(x => RATING[x] === 'Lean Democrat').length} of ${DATA.cook.ratings['Lean Democrat'].length}). Within each group, races are ordered by spending. The ratings list is fixed in cook_ratings.json and does not update on its own.`;
 $('#house').innerHTML = house30.map(mini).join('');
 $('#senate').innerHTML = byTot.filter(r => r.endsWith('-SEN')).map(mini).join('');
 document.querySelectorAll('.mini svg').forEach(svg => {
