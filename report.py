@@ -50,6 +50,15 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <div class="sub" id="asof"></div>
 <div class="tiles big" id="toptiles"></div>
 <div class="tiles" id="tiles"></div>
+
+<h2>Cumulative spending: most competitive House races</h2>
+<p id="cooknote"></p>
+<div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale; the top gridline is labelled.</span></div>
+<div class="grid" id="house"></div>
+<h2>Cumulative spending: Senate races</h2>
+<div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale.</span></div>
+<div class="grid" id="senate"></div>
+
 <p class="note">General-election spending in House and Senate races. Named committees are shown individually; every other committee making general-election independent expenditures is grouped as "Other R" or "Other D" by which side each expenditure helps. NRCC, NRSC, DCCC and DSCC figures are coordinated party expenditures, which are reported only in monthly reports, so they run about a month or more behind the independent expenditure data. Weeks start Monday and use the dissemination date, falling back to the expenditure date. The current week is partial. Time charts begin with the week of <span id="cs"></span>, which contains September 1; totals count all general-election spending to date.</p>
 
 <h2>Which races are being prioritized</h2>
@@ -73,13 +82,6 @@ svg text{fill:var(--text2);font-size:11px}svg .lab{fill:var(--text);font-size:11
 <p>One heatmap per spender, then each party side combined. Races are sorted by spend since the first week shown. Colour shows dollars in that week, scaled within each heatmap.</p>
 <div id="heat"></div>
 
-<h2>Cumulative spending: most competitive House races</h2>
-<p id="cooknote"></p>
-<div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale; the top gridline is labelled.</span></div>
-<div class="grid" id="house"></div>
-<h2>Cumulative spending: Senate races</h2>
-<div class="legend"><span><i class="key" style="background:var(--r)"></i>Republican-side committees</span><span><i class="key" style="background:var(--d)"></i>Democratic-side committees</span><span>Each panel has its own vertical scale.</span></div>
-<div class="grid" id="senate"></div>
 
 <h2>First entries</h2>
 <p>The week each committee first spent in a race, most recent first.</p>
