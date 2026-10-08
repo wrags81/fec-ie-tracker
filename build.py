@@ -530,7 +530,7 @@ for (sp, cid), g in oc.groupby(["committee", "committee_id"]):
 other_committees.sort(key=lambda x: -x["total"])
 json.dump(dict(
     weeks=[w.strftime("%Y-%m-%d") for w in weeks], chart_start=CHART_START,
-    last_date=D[D.spending_type == "independent expenditure"].date.max(), generated=pd.Timestamp.now().strftime("%Y-%m-%d %H:%M"),
+    last_date=min(D[D.spending_type == "independent expenditure"].date.max(), pd.Timestamp.now().strftime("%Y-%m-%d")), generated=pd.Timestamp.now().strftime("%Y-%m-%d %H:%M"),
     committees=[dict(label=c["label"], name=c["name"], side=c["side"], id=c["id"], coordinated=bool(c.get("coordinated"))) for c in COMMITTEES],
     spender_side=SPENDER_SIDE,
     heat={lab: dict(races=list(p.sum(axis=1).sort_values(ascending=False).index),
