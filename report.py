@@ -121,7 +121,7 @@ const spenders = Object.keys(DATA.heat);
 const cmts = spenders.filter(s => !s.startsWith('All '));
 
 // ---- header
-$('#asof').textContent = `Independent expenditure data through ${DATA.last_date}. Generated ${DATA.generated}. Source: OpenFEC Schedule E (processed data plus the raw e-file feed) and Schedule F.`;
+$('#asof').textContent = `Independent expenditure data through ${DATA.last_date}. Pulled from the FEC ${DATA.generated} Eastern. Source: OpenFEC Schedule E (processed data plus the raw e-file feed) and Schedule F.`;
 const tot = s => DATA.heat[s] ? Object.values(DATA.heat[s].values).reduce((a, v) => a + v.reduce((x, y) => x + y, 0), 0) : 0;
 const totOff = (s, sen) => DATA.heat[s] ? Object.entries(DATA.heat[s].values).filter(([race]) => race.endsWith('-SEN') === sen).reduce((a, [, v]) => a + v.reduce((x, y) => x + y, 0), 0) : 0;
 $('#toptiles').innerHTML = [['All R committees', false, 'House, Republican side'], ['All D committees', false, 'House, Democratic side'], ['All R committees', true, 'Senate, Republican side'], ['All D committees', true, 'Senate, Democratic side']]
@@ -272,8 +272,9 @@ const tossups = DATA.cook.ratings['Toss Up'].slice().sort(spendOrder);
 const leans = DATA.cook.ratings['Lean Democrat'].concat(DATA.cook.ratings['Lean Republican']).sort(spendOrder);
 const FLOOR = 'VA-01';  // show every Lean race with at least as much spending as this one
 const leanR = new Set(DATA.cook.ratings['Lean Republican']);
-const house30 = tossups.concat(leans.filter(x => leanR.has(x) || (DATA.race_totals[x] || 0) >= (DATA.race_totals[FLOOR] || 0)));
-$('#cooknote').innerHTML = `Races are chosen by <a href="${DATA.cook.url}" target="_blank" rel="noopener" style="color:inherit">${DATA.cook.source}</a> as of ${DATA.cook.as_of}: all ${tossups.length} Toss Up races, then every Lean Republican race (${leanR.size}) and the Lean Democrat races with at least as much spending as ${FLOOR} (${house30.filter(x => RATING[x] === 'Lean Democrat').length} of ${DATA.cook.ratings['Lean Democrat'].length}). Within each group, races are ordered by spending. The ratings list is fixed in cook_ratings.json and does not update on its own.`;
+const house30 = tossups.concat(leans.filter(x => leanR.has(x) || (DATA.race_totals[x] || 0) >= (DATA.race_totals[FLOOR] || 0))).concat(Object.keys(DATA.cook.also_show || {}));
+Object.entries(DATA.cook.also_show || {}).forEach(([k, v]) => RATING[k] = v);
+$('#cooknote').innerHTML = `Races are chosen by <a href="${DATA.cook.url}" target="_blank" rel="noopener" style="color:inherit">${DATA.cook.source}</a> as of ${DATA.cook.as_of}: all ${tossups.length} Toss Up races, then every Lean Republican race (${leanR.size}) and the Lean Democrat races with at least as much spending as ${FLOOR} (${house30.filter(x => RATING[x] === 'Lean Democrat').length} of ${DATA.cook.ratings['Lean Democrat'].length}). Within each group, races are ordered by spending.${Object.keys(DATA.cook.also_show || {}).length ? ' Also shown by request: ' + Object.entries(DATA.cook.also_show).map(([k, v]) => k + ' (' + v + ')').join(', ') + '.' : ''} The ratings list is fixed in cook_ratings.json and does not update on its own.`;
 $('#house').innerHTML = house30.map(mini).join('');
 $('#senate').innerHTML = byTot.filter(r => r.endsWith('-SEN')).map(mini).join('');
 document.querySelectorAll('.mini svg').forEach(svg => {

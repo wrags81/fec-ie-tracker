@@ -31,7 +31,7 @@ jobs:
         id: gate
         run: |
           today=$(date +%F)
-          last=$(git log -1 --format=%cd --date=format-local:%F -- output/data.json)
+          last=$(cat output/last_pull.txt 2>/dev/null || echo none)
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "go=true" >> "$GITHUB_OUTPUT"
           elif [ "$(date +%H)" -ge 8 ] && [ "$last" != "$today" ]; then

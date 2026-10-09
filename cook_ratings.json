@@ -3,8 +3,57 @@
  "url": "https://www.cookpolitical.com/ratings/house-race-ratings",
  "as_of": "2026-09-25",
  "ratings": {
-  "Toss Up": ["AZ-06", "CA-22", "CO-08", "FL-14", "FL-22", "FL-25", "IA-01", "IA-03", "MI-07", "MI-10", "NC-11", "NY-17", "OH-09", "OH-07", "PA-07", "PA-08", "PA-10", "TX-34", "TX-15", "VA-02", "WA-03", "WI-03"],
-  "Lean Democrat": ["AZ-01", "CA-13", "CA-48", "NE-02", "NJ-07", "NM-02", "NV-03", "NY-03", "NY-04", "OH-01", "TX-28"],
-  "Lean Republican": ["CO-05", "FL-13", "FL-27", "IA-02", "MI-04", "MT-01", "NC-01", "TX-35", "VA-01", "WI-01"]
+  "Toss Up": [
+   "AZ-06",
+   "CA-22",
+   "CO-08",
+   "FL-14",
+   "FL-22",
+   "FL-25",
+   "IA-01",
+   "IA-03",
+   "MI-07",
+   "MI-10",
+   "NC-11",
+   "NY-17",
+   "OH-09",
+   "OH-07",
+   "PA-07",
+   "PA-08",
+   "PA-10",
+   "TX-34",
+   "TX-15",
+   "VA-02",
+   "WA-03",
+   "WI-03"
+  ],
+  "Lean Democrat": [
+   "AZ-01",
+   "CA-13",
+   "CA-48",
+   "NE-02",
+   "NJ-07",
+   "NM-02",
+   "NV-03",
+   "NY-03",
+   "NY-04",
+   "OH-01",
+   "TX-28"
+  ],
+  "Lean Republican": [
+   "CO-05",
+   "FL-13",
+   "FL-27",
+   "IA-02",
+   "MI-04",
+   "MT-01",
+   "NC-01",
+   "TX-35",
+   "VA-01",
+   "WI-01"
+  ]
+ },
+ "also_show": {
+  "KY-06": "Likely Republican"
  }
 }
