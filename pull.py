@@ -164,4 +164,17 @@ if __name__ == "__main__":
                 have = api.get(rep["file_number"], 0)
                 if want > 0 and abs(want - have) > 0.01 * want and rep.get("fec_url"):
                     parse_fec_schedule_f(cid, rep["file_number"], rep["fec_url"])
+    # FEC candidate records for House candidates reported under more than one district in
+    # general-election rows; build.py uses the record's district to settle ties.
+    seen_d = {}
+    for r in load(ALL, "proc_H"):
+        if r.get("candidate_id") and r.get("election_type") == "G2026" and r.get("candidate_office_district"):
+            seen_d.setdefault(r["candidate_id"], set()).add((r.get("candidate_office_state"), r["candidate_office_district"]))
+    multi = sorted(c for c, v in seen_d.items() if len(v) > 1)
+    if not done(ALL, "cands"):
+        clear(ALL, "cands")
+        for i in range(0, len(multi), 50):
+            save(os.path.join(ALL, f"cands_{i // 50 + 1:04d}.json"), get("/candidates/", {"candidate_id": multi[i:i + 50], "per_page": 100}))
+        mark(ALL, "cands", {"rows": len(multi)})
+        print(f"  candidate records: {len(multi)}")
     print("pull complete")

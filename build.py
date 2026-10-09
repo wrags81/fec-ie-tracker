@@ -170,6 +170,30 @@ record("4b. Dropped: notice duplicating a kept regular-report row (same race, am
 D = D[~drop]
 ALLTYPES = D.copy()  # de-duplicated, every election type: basis for FEC reconciliation
 
+# E-file rows carry no election code. Fill it, in order of preference, from (1) the same
+# transaction in the processed filing this one amends, (2) the usual code in that amended
+# filing, (3) the same committee already reporting general-election spending on the same
+# candidate. Anything still blank falls back to the date rule in is_general().
+et_txn = {(f, t): e for f, t, e in zip(P.file_number, P.transaction_id, P.election_type) if isinstance(e, str)}
+et_file = P[P.election_type.notna()].groupby("file_number").election_type.agg(lambda x: x.value_counts().index[0]).to_dict()
+pl = P.candidate_name.fillna("").str.upper().str.split(",").str[0].str.replace(r"[^A-Z ]", "", regex=True).str.strip()
+gen_pairs = set(zip(P.committee_id[P.election_type == "G2026"], P.state[P.election_type == "G2026"], pl[P.election_type == "G2026"]))
+def fill_et(r):
+    if r.source != "efile":
+        return (r.election_type, None)
+    for fn in reversed([x for x in (r.chain or []) if x != r.file_number]):
+        if (fn, r.transaction_id) in et_txn:
+            return (et_txn[(fn, r.transaction_id)], "from the amended filing")
+        if fn in et_file:
+            return (et_file[fn], "from the amended filing")
+    last = re.sub(r"[^A-Z ]", "", (r.candidate_name or "").upper().split(",")[0]).strip()
+    if (r.committee_id, r.state, last) in gen_pairs:
+        return ("G2026", "same committee and candidate already coded general")
+    return (None, None)
+filled = D.apply(fill_et, axis=1)
+D["election_type"] = [f[0] for f in filled]
+D["et_note"] = [f[1] for f in filled]
+
 # ---------------------------------------------------------------- step 5: general election only
 def is_general(r):
     if r.office not in ("H", "S"):
@@ -186,6 +210,7 @@ gen = D.apply(is_general, axis=1)
 D["election_basis"] = D.election_type.map(lambda et: "G2026" if et == "G2026" else
                                           ("S2026 special on general ballot" if et == "S2026" else
                                            "inferred general (e-file feed, no election code)"))
+D.loc[D.et_note.notna(), "election_basis"] = "e-file feed, election code " + D.et_note[D.et_note.notna()]
 nong = D[~gen].copy()
 nong["k"] = nong.election_type.fillna("no code").astype(str).str[:1].map(
     {"P": "primary", "R": "runoff", "S": "special", "C": "convention", "G": "general in another year", "O": "other"}).fillna("no or other code")
@@ -260,6 +285,23 @@ moved = D[wrong].assign(to=D[wrong].candidate_id.map(home))
 D.loc[wrong, "race"] = moved.to
 D.loc[wrong, "state"] = moved.to.str[:2]
 D.loc[wrong & (D.office == "H"), "district"] = moved.to.str[3:].replace("AL", "00")
+# A House candidate reported under more than one district is moved to a single one: the
+# district most committees report, then the district on the FEC candidate record, then dollars.
+fec_dist = {}
+for c_ in load(ALL, "cands"):
+    if c_.get("district") and c_.get("state"):
+        fec_dist[c_["candidate_id"]] = race_of("H", c_["state"], "00" if c_["state"] in AT_LARGE else c_["district"])
+hh = D[(D.office == "H") & D.candidate_id.notna() & D.race.notna() & (D.election_type == "G2026")]
+cnt = hh.groupby(["candidate_id", "race"]).agg(ncm=("committee_id", "nunique"), amt=("amount", "sum")).reset_index()
+cnt["fec"] = [fec_dist.get(c) == r for c, r in zip(cnt.candidate_id, cnt.race)]
+best = cnt.sort_values(["ncm", "fec", "amt"], ascending=False).drop_duplicates("candidate_id").set_index("candidate_id").race
+multi_ids = set(cnt.candidate_id[cnt.candidate_id.duplicated()])
+wrongd = (D.office == "H") & D.candidate_id.isin(multi_ids) & D.race.notna() & (D.race != D.candidate_id.map(best))
+moved_d = D[wrongd].assign(to=D[wrongd].candidate_id.map(best), was=D[wrongd].race)
+D.loc[wrongd, "race"] = moved_d.to
+D.loc[wrongd, "state"] = moved_d.to.str[:2]
+D.loc[wrongd, "district"] = moved_d.to.str[3:].replace("AL", "00")
+moved = pd.concat([moved.assign(was=[race_of(o, st, d) for o, st, d in zip(moved.office, moved.state, moved.district)]) if len(moved) else moved, moved_d])
 unmapped = D[D.race.isna()]
 D = D[D.race.notna()].copy()
 
@@ -473,11 +515,10 @@ else:
 
 say("\n## Rows moved to a different race\n")
 if len(moved):
-    say("The state on these rows disagreed with the state in the candidate ID, so they were moved to the candidate's race.\n")
+    say("These rows were filed under a state or district that disagrees with the candidate's other filings, so they were moved to the candidate's race.\n")
     say("| Committee | Candidate | Reported as | Moved to | Rows | Amount |")
     say("|---|---|---|---|---|---|")
-    mv = moved.assign(was=[race_of(o, st, d) for o, st, d in zip(moved.office, moved.state, moved.district)])
-    for k, g in mv.groupby(["committee_name", "candidate_name", "was", "to"]):
+    for k, g in moved.groupby(["committee_name", "candidate_name", "was", "to"]):
         say(f"| {k[0]} | {k[1]} | {k[2]} | {k[3]} | {len(g)} | {money(g.amount.sum())} |")
 else:
     say("None.")
