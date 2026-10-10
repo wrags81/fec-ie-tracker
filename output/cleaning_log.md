@@ -1,11 +1,11 @@
 # Cleaning log
 
-Data pulled 2026-10-09T09:57:29.
+Data pulled 2026-10-10T13:15:01.
 
 ## Rows pulled
 
-- Processed Schedule E rows, House and Senate candidates, 2026 cycle: 42,995 from 807 committees
-- Raw e-file feed rows from filings received in the last 7 days: 5,752 distinct transactions (11,504 rows returned across overlapping pages)
+- Processed Schedule E rows, House and Senate candidates, 2026 cycle: 44,548 from 819 committees
+- Raw e-file feed rows from filings received in the last 7 days: 6,534 distinct transactions (13,068 rows returned across overlapping pages)
 
 ## Rows added and dropped at each step
 
@@ -13,44 +13,48 @@ Independent expenditures only. "All other committees" is every committee not nam
 
 | Step | Committee | Rows | Amount |
 |---|---|---|---|
-| 1a. E-file rows added (filings not yet in processed data) | All other committees | 939 | $35,010,860 |
-| 1a. E-file rows added (filings not yet in processed data) | HMP | 241 | $33,722,089 |
-| 1a. E-file rows added (filings not yet in processed data) | CLF | 6 | $126,868 |
-| 1a. E-file rows added (filings not yet in processed data) | **All** | **1,186** | **$68,859,817** |
-| 1b. E-file-only rows ignored (filing already superseded by an amendment) | All other committees | 175 | $523,393 |
-| 1b. E-file-only rows ignored (filing already superseded by an amendment) | **All** | **175** | **$523,393** |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | HMP | 190 | $23,575,839 |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 142 | $17,149,962 |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **332** | **$40,725,801** |
-| 2. Dropped: superseded amendment (not the most recent version of the filing) | All other committees | 1,881 | $106,404,739 |
-| 2. Dropped: superseded amendment (not the most recent version of the filing) | HMP | 114 | $11,466,564 |
-| 2. Dropped: superseded amendment (not the most recent version of the filing) | **All** | **1,995** | **$117,871,302** |
-| 3. Dropped: memo / memoed-subtotal rows | All other committees | 1,651 | $8,016,926,015 |
+| 1a. E-file rows added (filings not yet in processed data) | CLF | 69 | $32,788,021 |
+| 1a. E-file rows added (filings not yet in processed data) | All other committees | 1,017 | $28,694,895 |
+| 1a. E-file rows added (filings not yet in processed data) | WinSenate | 10 | $6,405,182 |
+| 1a. E-file rows added (filings not yet in processed data) | Cornhusker Majority | 4 | $1,928,738 |
+| 1a. E-file rows added (filings not yet in processed data) | HMP | 27 | $1,880,196 |
+| 1a. E-file rows added (filings not yet in processed data) | The Maine Standard | 4 | $1,327,668 |
+| 1a. E-file rows added (filings not yet in processed data) | SLF | 2 | $414,282 |
+| 1a. E-file rows added (filings not yet in processed data) | Texas Forever | 1 | $21,507 |
+| 1a. E-file rows added (filings not yet in processed data) | **All** | **1,134** | **$73,460,489** |
+| 1b. E-file-only rows ignored (filing already superseded by an amendment) | All other committees | 264 | $708,786 |
+| 1b. E-file-only rows ignored (filing already superseded by an amendment) | **All** | **264** | **$708,786** |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 157 | $11,980,068 |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **157** | **$11,980,068** |
+| 2. Dropped: superseded amendment (not the most recent version of the filing) | All other committees | 1,982 | $117,406,144 |
+| 2. Dropped: superseded amendment (not the most recent version of the filing) | HMP | 304 | $35,042,403 |
+| 2. Dropped: superseded amendment (not the most recent version of the filing) | **All** | **2,286** | **$152,448,547** |
+| 3. Dropped: memo / memoed-subtotal rows | All other committees | 1,709 | $8,016,665,228 |
 | 3. Dropped: memo / memoed-subtotal rows | SLF | 2 | $2,060 |
-| 3. Dropped: memo / memoed-subtotal rows | **All** | **1,653** | **$8,016,928,075** |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 11,882 | $801,080,673 |
+| 3. Dropped: memo / memoed-subtotal rows | **All** | **1,711** | **$8,016,667,288** |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 12,070 | $802,695,329 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | WinSenate | 34 | $12,470,398 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | SLF | 88 | $6,442,043 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | MAGA Inc. | 35 | $2,535,973 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | HMP | 6 | $930,876 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | CLF | 19 | $260,031 |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **12,064** | **$823,719,994** |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **12,252** | **$825,334,650** |
 | 5. Dropped: not 2026 general (convention) | All other committees | 8 | $1,227 |
 | 5. Dropped: not 2026 general (convention) | **All** | **8** | **$1,227** |
 | 5. Dropped: not 2026 general (general in another year) | All other committees | 465 | $1,001,116,987 |
 | 5. Dropped: not 2026 general (general in another year) | HMP | 3 | $30,906 |
 | 5. Dropped: not 2026 general (general in another year) | **All** | **468** | **$1,001,147,893** |
-| 5. Dropped: not 2026 general (no or other code) | All other committees | 123 | $341,653 |
-| 5. Dropped: not 2026 general (no or other code) | **All** | **123** | **$341,653** |
-| 5. Dropped: not 2026 general (other) | All other committees | 32 | $1,003,179,171 |
+| 5. Dropped: not 2026 general (no or other code) | All other committees | 148 | $1,069,055 |
+| 5. Dropped: not 2026 general (no or other code) | **All** | **148** | **$1,069,055** |
+| 5. Dropped: not 2026 general (other) | All other committees | 29 | $1,002,979,171 |
 | 5. Dropped: not 2026 general (other) | No Going Back PAC | 2 | $5,151,145 |
-| 5. Dropped: not 2026 general (other) | **All** | **34** | **$1,008,330,316** |
-| 5. Dropped: not 2026 general (primary) | All other committees | 12,782 | $1,707,563,675 |
+| 5. Dropped: not 2026 general (other) | **All** | **31** | **$1,008,130,316** |
+| 5. Dropped: not 2026 general (primary) | All other committees | 12,746 | $1,706,498,622 |
 | 5. Dropped: not 2026 general (primary) | SLF | 83 | $6,844,268 |
 | 5. Dropped: not 2026 general (primary) | WinSenate | 6 | $1,488,396 |
 | 5. Dropped: not 2026 general (primary) | North Star | 2 | $1,010,128 |
 | 5. Dropped: not 2026 general (primary) | CLF | 21 | $264,240 |
-| 5. Dropped: not 2026 general (primary) | **All** | **12,894** | **$1,717,170,707** |
+| 5. Dropped: not 2026 general (primary) | **All** | **12,858** | **$1,716,105,654** |
 | 5. Dropped: not 2026 general (runoff) | All other committees | 686 | $63,330,933 |
 | 5. Dropped: not 2026 general (runoff) | MAGA Inc. | 2 | $827,711 |
 | 5. Dropped: not 2026 general (runoff) | **All** | **688** | **$64,158,644** |
@@ -59,7 +63,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 5. Dropped: not 2026 general (special) | HMP | 6 | $930,876 |
 | 5. Dropped: not 2026 general (special) | **All** | **701** | **$27,006,480** |
 
-Final cleaned general-election independent expenditure rows: **13,154**, $1,384,858,885.
+Final cleaned general-election independent expenditure rows: **14,306**, $1,498,607,304.
 
 Coordinated party expenditure rows added (Schedule F): **267**, $62,898,441.
 
@@ -67,7 +71,7 @@ Notice cut-off for the named committees (latest regular-report coverage end date
 
 ## Expenditures by other committees that could not be assigned to a party side
 
-60 rows, $1,000,581,795. These are left out of the tables and charts.
+61 rows, $1,000,584,795. These are left out of the tables and charts.
 
 | Race | Candidate | Party | Support/oppose | Rows | Amount |
 |---|---|---|---|---|---|
@@ -79,17 +83,18 @@ Notice cut-off for the named committees (latest regular-report coverage end date
 | NM-03 | VASQUEZ, GABE REP. | nan | S | 4 | $38,216 |
 | AZ-06 | JUAN, CISCOMANI | REP | nan | 1 | $20,000 |
 | TX-03 | SELF, KEITH ALAN MR | nan | S | 12 | $9,613 |
-| WI-03 | STEIL, BRYAN | nan | O | 1 | $9,000 |
 | WI-03 | BERMAN, MITCHELL | nan | S | 1 | $9,000 |
+| WI-03 | STEIL, BRYAN | nan | O | 1 | $9,000 |
+| ME-SEN | COLLLINS, SUSAN | nan | O | 1 | $3,000 |
 | SC-SEN | NORMAN, RALPH | nan | nan | 1 | $1,000 |
 | WI-04 | BURKS, ARTHUR | nan | S | 5 | $856 |
 | IN-03 | STUTZMAN, MARLIN | nan | S | 5 | $178 |
 | OH-13 | SKYES, EMILIA | nan | S | 1 | $105 |
-| NJ-78 | BENNETT, REBECCA | nan | S | 1 | $100 |
 | NJ-07 | BENNET, REBECCA | nan | S | 1 | $100 |
+| NJ-78 | BENNETT, REBECCA | nan | S | 1 | $100 |
 | NY-18 | RYAN, PATRICK | nan | S | 1 | $10 |
 
-67 rows ($5,901,474) are dated after the current week; they are in the transaction file but not the weekly tables or charts.
+96 rows ($9,860,515) are dated after the current week; they are in the transaction file but not the weekly tables or charts.
 
 ## Reconciliation against FEC aggregates
 
@@ -145,7 +150,9 @@ These rows were filed under a state or district that disagrees with the candidat
 | CLUB FOR GROWTH PAC | MIGUEZ, BLAKE | LA-05 | LA-06 | 2 | $4,017 |
 | FREEDOM CAUCUS FUND | BOEBERT, LAUREN | CO-03 | CO-04 | 9 | $364,238 |
 | FREEDOM CAUCUS FUND | LAUBACHER, EILEEN | CO-03 | CO-04 | 1 | $79,028 |
+| GROWING ECONOMIC OPPORTUNITIES | BENNETT, REBECCA | NE-07 | NJ-07 | 1 | $100 |
 | INDIGO PAC | GRAY, ADAM | OH-09 | CA-13 | 1 | $95 |
+| JOBS & PROSPERITY PAC | POINDEXTER, BRIAN | OH-AL | OH-07 | 1 | $25,000 |
 | LATINOS FOR CONSERVATIVE VALUES | PAULINA LUNA, ANNA | FL-03 | FL-13 | 1 | $3,000 |
 | LGBTQ CONNECTION PAC | HARDING, BRINKER | NE-06 | NE-02 | 20 | $16,120 |
 | NEBRASKA APPLESEED ACTION FUND | OSBORN, DAN | NB-SEN | NE-SEN | 2 | $31,680 |
@@ -165,35 +172,35 @@ These rows were filed under a state or district that disagrees with the candidat
 
 | Committee | Candidate | Office | State | District | Amount | Date | Filing |
 |---|---|---|---|---|---|---|---|
-| None | BETTIS, SHAWN STEFAN | H | FL | None | $9,000,000,000 | 2026-04-03 | 1957531 |
-| None | BETTIS, SHAWN STEFAN | H | CA | None | $1,000,000,000 | 2026-05-15 | 1975315 |
-| None | BETTIS, SHAWN STEFAN | H | CA | None | $1,000,000,000 | 2026-05-14 | 1975235 |
-| None | BETTIS, SHAWN STEFAN | H | FL | None | $1,000,000,000 | 2026-04-22 | 1970917 |
-| None | BETTIS, SHAWN STEFAN | H | FL | None | $100 | 2026-07-06 | 1989236 |
-| None | BETTIS, SHAWN STEFAN | H | None | None | $100 | 2026-06-25 | 1986763 |
-| None | BETTIS, SHAWN STEFAN | H | CA | None | $100 | 2026-05-26 | 1979441 |
+| nan | BETTIS, SHAWN STEFAN | H | FL | nan | $9,000,000,000 | 2026-04-03 | 1957531 |
+| nan | BETTIS, SHAWN STEFAN | H | CA | nan | $1,000,000,000 | 2026-05-15 | 1975315 |
+| nan | BETTIS, SHAWN STEFAN | H | CA | nan | $1,000,000,000 | 2026-05-14 | 1975235 |
+| nan | BETTIS, SHAWN STEFAN | H | FL | nan | $1,000,000,000 | 2026-04-22 | 1970917 |
+| nan | BETTIS, SHAWN STEFAN | H | CA | nan | $100 | 2026-05-26 | 1979441 |
+| nan | BETTIS, SHAWN STEFAN | H | FL | nan | $100 | 2026-07-06 | 1989236 |
+| nan | BETTIS, SHAWN STEFAN | H | nan | nan | $100 | 2026-06-25 | 1986763 |
 
 ## Most recent transaction per spender
 
 | Spender | Latest date in cleaned data | Latest filing received | Rows | Total |
 |---|---|---|---|---|
-| CLF | 2026-10-06 | 2026-10-08 | 315 | $68,695,630 |
+| CLF | 2026-10-07 | 2026-10-09 | 384 | $101,483,652 |
 | NRCC | 2026-08-31 | n/a | 67 | $8,311,565 |
-| SLF | 2026-10-06 | 2026-10-08 | 306 | $174,950,958 |
-| Texas PAC | 2026-10-06 | 2026-10-08 | 40 | $138,730,868 |
-| Cornhusker Majority | 2026-10-06 | 2026-10-08 | 19 | $5,014,359 |
-| The Maine Standard | 2026-10-06 | 2026-10-08 | 8 | $3,779,222 |
+| SLF | 2026-10-08 | 2026-10-10 | 336 | $201,394,576 |
+| Texas PAC | 2026-10-07 | 2026-10-09 | 42 | $139,478,790 |
+| Cornhusker Majority | 2026-10-07 | 2026-10-09 | 23 | $6,943,097 |
+| The Maine Standard | 2026-10-07 | 2026-10-09 | 12 | $5,106,890 |
 | NRSC | 2026-08-31 | n/a | 67 | $48,146,785 |
 | MAGA Inc. | 2026-10-03 | 2026-10-03 | 6 | $25,000,000 |
 | No Going Back PAC | 2026-10-07 | 2026-10-08 | 946 | $149,485,489 |
-| Safety & Affordability PAC | 2026-09-30 | 2026-10-01 | 3 | $1,281,250 |
-| Other R | 2026-10-10 | 2026-10-09 | 4,666 | $311,101,224 |
-| HMP | 2026-10-06 | 2026-10-08 | 607 | $70,600,895 |
+| Safety & Affordability PAC | 2026-10-07 | 2026-10-09 | 9 | $4,009,025 |
+| Other R | 2026-10-10 | 2026-10-10 | 4,986 | $326,269,465 |
+| HMP | 2026-10-08 | 2026-10-09 | 634 | $72,481,132 |
 | DCCC | 2026-08-31 | n/a | 100 | $5,243,971 |
 | SMP | no general-election spending | n/a | 0 | $0 |
-| WinSenate | 2026-10-06 | 2026-10-08 | 200 | $126,750,497 |
-| Texas Forever | 2026-10-06 | 2026-10-08 | 5 | $5,815,586 |
+| WinSenate | 2026-10-07 | 2026-10-09 | 210 | $133,155,679 |
+| Texas Forever | 2026-10-07 | 2026-10-09 | 6 | $5,837,093 |
 | North Star | 2026-10-06 | 2026-10-08 | 33 | $9,037,518 |
 | The Georgia Way | 2026-10-06 | 2026-10-08 | 9 | $7,120,071 |
 | DSCC | 2026-08-31 | n/a | 33 | $1,196,120 |
-| Other D | 2026-10-10 | 2026-10-09 | 5,924 | $281,593,844 |
+| Other D | 2026-10-10 | 2026-10-10 | 6,574 | $301,944,311 |
