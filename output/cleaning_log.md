@@ -1,11 +1,11 @@
 # Cleaning log
 
-Data pulled 2026-11-03T15:47:12.
+Data pulled 2026-11-04T15:05:15.
 
 ## Rows pulled
 
 - Processed Schedule E rows, House and Senate candidates, 2026 cycle: 70,196 from 1,034 committees
-- Raw e-file feed rows from filings received in the last 7 days: 9,900 distinct transactions (19,827 rows returned across overlapping pages)
+- Raw e-file feed rows from filings received in the last 7 days: 10,725 distinct transactions (21,450 rows returned across overlapping pages)
 
 ## Rows added and dropped at each step
 
@@ -13,15 +13,16 @@ Independent expenditures only. "All other committees" is every committee not nam
 
 | Step | Committee | Rows | Amount |
 |---|---|---|---|
-| 1a. E-file rows added (filings not yet in processed data) | All other committees | 1,146 | $19,113,263 |
-| 1a. E-file rows added (filings not yet in processed data) | SLF | 24 | $1,158,250 |
+| 1a. E-file rows added (filings not yet in processed data) | All other committees | 1,903 | $35,079,571 |
+| 1a. E-file rows added (filings not yet in processed data) | SLF | 34 | $1,233,309 |
 | 1a. E-file rows added (filings not yet in processed data) | CLF | 3 | $230,858 |
 | 1a. E-file rows added (filings not yet in processed data) | WinSenate | 3 | $73,000 |
-| 1a. E-file rows added (filings not yet in processed data) | **All** | **1,176** | **$20,575,371** |
-| 1b. E-file-only rows ignored (filing already superseded by an amendment) | All other committees | 90 | $51,889 |
-| 1b. E-file-only rows ignored (filing already superseded by an amendment) | **All** | **90** | **$51,889** |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 601 | $6,861,192 |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **601** | **$6,861,192** |
+| 1a. E-file rows added (filings not yet in processed data) | No Going Back PAC | 6 | $22,165 |
+| 1a. E-file rows added (filings not yet in processed data) | **All** | **1,949** | **$36,638,903** |
+| 1b. E-file-only rows ignored (filing already superseded by an amendment) | All other committees | 142 | $159,525 |
+| 1b. E-file-only rows ignored (filing already superseded by an amendment) | **All** | **142** | **$159,525** |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 792 | $21,777,311 |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **792** | **$21,777,311** |
 | 2. Dropped: superseded amendment (not the most recent version of the filing) | All other committees | 3,383 | $168,866,476 |
 | 2. Dropped: superseded amendment (not the most recent version of the filing) | HMP | 304 | $35,042,403 |
 | 2. Dropped: superseded amendment (not the most recent version of the filing) | **All** | **3,687** | **$203,908,879** |
@@ -29,7 +30,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 3. Dropped: memo / memoed-subtotal rows | HMP | 18 | $1,103,316 |
 | 3. Dropped: memo / memoed-subtotal rows | SLF | 2 | $2,060 |
 | 3. Dropped: memo / memoed-subtotal rows | **All** | **2,580** | **$8,019,136,929** |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 13,602 | $899,961,778 |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 13,605 | $899,965,674 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | SLF | 494 | $248,266,539 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | No Going Back PAC | 1,146 | $183,785,844 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | WinSenate | 279 | $167,602,079 |
@@ -43,7 +44,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | The Georgia Way | 9 | $7,120,071 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | Cornhusker Majority | 25 | $7,079,253 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | The Maine Standard | 15 | $6,796,637 |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **17,219** | **$2,004,406,087** |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **17,222** | **$2,004,409,983** |
 | 5. Dropped: not 2026 general (convention) | All other committees | 8 | $1,227 |
 | 5. Dropped: not 2026 general (convention) | **All** | **8** | **$1,227** |
 | 5. Dropped: not 2026 general (general in another year) | All other committees | 471 | $1,001,345,676 |
@@ -67,7 +68,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 5. Dropped: not 2026 general (special) | HMP | 6 | $930,876 |
 | 5. Dropped: not 2026 general (special) | **All** | **750** | **$30,144,140** |
 
-Final cleaned general-election independent expenditure rows: **31,833**, $2,255,571,308.
+Final cleaned general-election independent expenditure rows: **32,316**, $2,256,197,002.
 
 Coordinated party expenditure rows added (Schedule F): **1,335**, $270,313,802.
 - NRCC filing 2039287: 213 Schedule F rows read from the raw filing because the API had not loaded them
@@ -84,37 +85,37 @@ Notice cut-off for the named committees (latest regular-report coverage end date
 
 ## Expenditures by other committees that could not be assigned to a party side
 
-506 rows, $1,010,527,922. These are left out of the tables and charts.
+602 rows, $1,011,045,746. These are left out of the tables and charts.
 
 | Race | Candidate | Party | Support/oppose | Rows | Amount |
 |---|---|---|---|---|---|
 | FL-SEN | BETTIS, SHAWN STEFAN | nan | S | 1 | $1,000,000,000 |
 | OH-SEN | REDPATH, WILLIAM | LIB | S | 11 | $1,971,068 |
 | OH-SEN | LEVY, GREGORY LEE | IND | S | 15 | $1,763,982 |
-| IA-SEN | LAEHN, THOMAS RAYMOND DR. | LIB | S | 18 | $890,178 |
+| IA-SEN | LAEHN, THOMAS RAYMOND DR. | LIB | S | 22 | $938,217 |
 | CA-48 | WILPERT, MARNI VON | nan | S | 31 | $864,579 |
-| SC-SEN | HACKETT, MARK | nan | S | 14 | $573,106 |
-| KS-SEN | GRAHAM, DAVID C. | LIB | S | 15 | $573,005 |
-| VA-02 | BAKER, MATTHEW | IND | S | 16 | $284,604 |
+| SC-SEN | HACKETT, MARK | nan | S | 16 | $598,314 |
+| KS-SEN | GRAHAM, DAVID C. | LIB | S | 17 | $595,295 |
+| VA-02 | BAKER, MATTHEW | IND | S | 18 | $295,778 |
 | MI-04 | BARNETT, SHAFINA CHE | GRE | S | 11 | $263,974 |
-| IA-01 | BRIDGFORD, MICHAEL | IND | S | 12 | $184,755 |
-| KY-06 | BOWMAN, JAY | nan | S | 14 | $181,474 |
-| MN-SEN | WHITING, REBECCA | LIB | S | 10 | $170,694 |
-| WI-03 | PROVANCE, RUSTIN LEVEM | NNE | S | 7 | $154,696 |
-| IA-02 | STEWART, RICK | nan | S | 14 | $137,980 |
-| NV-02 | CHAPMAN, LYNN | IAP | S | 10 | $136,688 |
-| OH-10 | MCMASTERS, THOMAS | LIB | S | 13 | $133,719 |
+| KY-06 | BOWMAN, JAY | nan | S | 17 | $208,838 |
+| IA-01 | BRIDGFORD, MICHAEL | IND | S | 17 | $197,182 |
+| WI-03 | PROVANCE, RUSTIN LEVEM | NNE | S | 11 | $183,870 |
+| NV-02 | CHAPMAN, LYNN | IAP | S | 17 | $178,233 |
+| MN-SEN | WHITING, REBECCA | LIB | S | 12 | $174,786 |
+| SC-01 | REESIDE, WILLIAM OLIVER JR. | LIB | S | 15 | $160,766 |
+| OH-10 | MCMASTERS, THOMAS | LIB | S | 17 | $159,549 |
+| IA-02 | STEWART, RICK | nan | S | 19 | $157,864 |
+| TX-34 | ROYAL, CHRIS B. | LIB | S | 16 | $132,342 |
+| MT-01 | SHEEDY, NICK | nan | S | 15 | $130,757 |
 | LA-SEN | DAVIS, JAMIE | nan | S | 1 | $128,619 |
-| SC-01 | REESIDE, WILLIAM OLIVER JR. | LIB | S | 10 | $120,970 |
-| TX-34 | ROYAL, CHRIS B. | LIB | S | 13 | $113,389 |
-| MT-01 | SHEEDY, NICK | nan | S | 12 | $111,578 |
-| NH-SEN | LAPLANTE, EDMOND | RNC | S | 6 | $110,459 |
-| NC-01 | BAILEY, TOM | LIB | S | 5 | $110,459 |
+| NC-01 | BAILEY, TOM | LIB | S | 6 | $125,615 |
+| NH-SEN | LAPLANTE, EDMOND | RNC | S | 7 | $115,799 |
+| OH-15 | BARRINGTON, BRENNAN | LIB | S | 11 | $112,607 |
 | IA-SEN | LAEHN, THOMAS DR. | LIB | O | 1 | $101,120 |
-| OH-15 | BARRINGTON, BRENNAN | LIB | S | 8 | $96,324 |
-| NY-23 | LANGWORTHY, NICK | nan | S | 1 | $95,900 |
+| AZ-01 | ALPONTE, MONICA MARIA | LIB | S | 12 | $96,607 |
 
-Plus 66 smaller groups totalling $1,254,601.
+Plus 68 smaller groups totalling $1,389,985.
 
 4 rows ($45,461) are dated after the current week; they are in the transaction file but not the weekly tables or charts.
 
@@ -229,15 +230,15 @@ These rows were filed under a state or district that disagrees with the candidat
 |---|---|---|---|---|
 | CLF | 2026-11-01 | 2026-11-02 | 561 | $152,662,195 |
 | NRCC | 2026-10-14 | n/a | 619 | $84,028,433 |
-| SLF | 2026-11-02 | 2026-11-03 | 356 | $105,489,241 |
+| SLF | 2026-11-03 | 2026-11-03 | 366 | $105,564,300 |
 | Texas PAC | 2026-10-27 | 2026-10-29 | 10 | $33,538,779 |
 | Cornhusker Majority | no general-election spending | n/a | 0 | $0 |
 | The Maine Standard | 2026-10-28 | 2026-10-29 | 5 | $3,117,462 |
 | NRSC | 2026-10-14 | n/a | 113 | $86,953,589 |
 | MAGA Inc. | 2026-10-28 | 2026-10-29 | 34 | $7,760,000 |
-| No Going Back PAC | 2026-11-02 | 2026-11-02 | 595 | $88,796,350 |
+| No Going Back PAC | 2026-11-03 | 2026-11-03 | 601 | $88,818,515 |
 | Safety & Affordability PAC | 2026-10-30 | 2026-10-30 | 74 | $50,653,712 |
-| Other R | 2026-11-03 | 2026-11-03 | 9,967 | $667,216,383 |
+| Other R | 2026-11-03 | 2026-11-04 | 9,996 | $667,865,693 |
 | HMP | 2026-10-31 | 2026-11-01 | 1,051 | $201,877,784 |
 | DCCC | 2026-10-13 | n/a | 345 | $60,946,873 |
 | SMP | no general-election spending | n/a | 0 | $0 |
@@ -246,4 +247,4 @@ These rows were filed under a state or district that disagrees with the candidat
 | North Star | 2026-10-30 | 2026-10-31 | 19 | $4,152,647 |
 | The Georgia Way | no general-election spending | n/a | 0 | $0 |
 | DSCC | 2026-10-14 | n/a | 258 | $38,384,907 |
-| Other D | 2026-11-03 | 2026-11-03 | 18,923 | $796,428,938 |
+| Other D | 2026-11-03 | 2026-11-04 | 19,361 | $796,308,098 |
