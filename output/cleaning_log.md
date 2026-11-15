@@ -1,11 +1,11 @@
 # Cleaning log
 
-Data pulled 2026-11-14T13:20:26.
+Data pulled 2026-11-15T14:14:07.
 
 ## Rows pulled
 
-- Processed Schedule E rows, House and Senate candidates, 2026 cycle: 82,213 from 1,058 committees
-- Raw e-file feed rows from filings received in the last 7 days: 415 distinct transactions (415 rows returned across overlapping pages)
+- Processed Schedule E rows, House and Senate candidates, 2026 cycle: 82,268 from 1,058 committees
+- Raw e-file feed rows from filings received in the last 7 days: 410 distinct transactions (410 rows returned across overlapping pages)
 
 ## Rows added and dropped at each step
 
@@ -13,22 +13,22 @@ Independent expenditures only. "All other committees" is every committee not nam
 
 | Step | Committee | Rows | Amount |
 |---|---|---|---|
-| 1a. E-file rows added (filings not yet in processed data) | All other committees | 297 | $15,534,345 |
-| 1a. E-file rows added (filings not yet in processed data) | **All** | **297** | **$15,534,345** |
+| 1a. E-file rows added (filings not yet in processed data) | All other committees | 238 | $13,657,890 |
+| 1a. E-file rows added (filings not yet in processed data) | **All** | **238** | **$13,657,890** |
 | 1b. E-file-only rows ignored (filing already superseded by an amendment) | All other committees | 17 | $520,519 |
 | 1b. E-file-only rows ignored (filing already superseded by an amendment) | **All** | **17** | **$520,519** |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 149 | $11,855,986 |
-| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **149** | **$11,855,986** |
-| 2. Dropped: superseded amendment (not the most recent version of the filing) | All other committees | 3,968 | $194,208,356 |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | All other committees | 126 | $10,342,998 |
+| 1c. Processed rows dropped (filing amended by a newer e-file-only filing) | **All** | **126** | **$10,342,998** |
+| 2. Dropped: superseded amendment (not the most recent version of the filing) | All other committees | 3,991 | $195,721,344 |
 | 2. Dropped: superseded amendment (not the most recent version of the filing) | HMP | 304 | $35,042,403 |
-| 2. Dropped: superseded amendment (not the most recent version of the filing) | **All** | **4,272** | **$229,250,759** |
+| 2. Dropped: superseded amendment (not the most recent version of the filing) | **All** | **4,295** | **$230,763,747** |
 | 3. Dropped: memo / memoed-subtotal rows | All other committees | 3,800 | $8,030,544,950 |
 | 3. Dropped: memo / memoed-subtotal rows | HMP | 18 | $1,103,316 |
 | 3. Dropped: memo / memoed-subtotal rows | North Star | 1 | $50,000 |
 | 3. Dropped: memo / memoed-subtotal rows | WinSenate | 1 | $50,000 |
 | 3. Dropped: memo / memoed-subtotal rows | SLF | 2 | $2,060 |
 | 3. Dropped: memo / memoed-subtotal rows | **All** | **3,822** | **$8,031,750,325** |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 19,576 | $1,242,394,172 |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | All other committees | 19,577 | $1,242,589,172 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | SLF | 494 | $248,266,539 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | No Going Back PAC | 1,146 | $183,785,844 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | WinSenate | 279 | $167,602,079 |
@@ -42,7 +42,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | The Georgia Way | 9 | $7,120,071 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | Cornhusker Majority | 25 | $7,079,253 |
 | 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | The Maine Standard | 15 | $6,796,637 |
-| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **23,193** | **$2,346,838,482** |
+| 4a. Dropped: 24/48-hour notice dated within a period covered by a regular report | **All** | **23,194** | **$2,347,033,482** |
 | 4b. Dropped: notice duplicating a kept regular-report row (same race, amount and dates) | No Going Back PAC | 28 | $4,706,845 |
 | 4b. Dropped: notice duplicating a kept regular-report row (same race, amount and dates) | Safety & Affordability PAC | 4 | $3,661,025 |
 | 4b. Dropped: notice duplicating a kept regular-report row (same race, amount and dates) | **All** | **32** | **$8,367,870** |
@@ -69,7 +69,7 @@ Independent expenditures only. "All other committees" is every committee not nam
 | 5. Dropped: not 2026 general (special) | HMP | 6 | $930,876 |
 | 5. Dropped: not 2026 general (special) | **All** | **751** | **$30,151,327** |
 
-Final cleaned general-election independent expenditure rows: **35,245**, $2,801,663,998.
+Final cleaned general-election independent expenditure rows: **35,240**, $2,801,660,562.
 
 Coordinated party expenditure rows added (Schedule F): **1,335**, $270,313,802.
 - NRCC filing 2039287: 213 Schedule F rows read from the raw filing because the API had not loaded them
@@ -238,7 +238,7 @@ These rows were filed under a state or district that disagrees with the candidat
 | MAGA Inc. | 2026-10-28 | 2026-10-29 | 34 | $7,760,000 |
 | No Going Back PAC | 2026-11-03 | 2026-11-03 | 1,730 | $271,919,306 |
 | Safety & Affordability PAC | 2026-10-30 | 2026-10-30 | 100 | $63,209,520 |
-| Other R | 2026-11-03 | 2026-11-13 | 9,305 | $603,630,825 |
+| Other R | 2026-11-03 | 2026-11-13 | 9,305 | $603,630,850 |
 | HMP | 2026-10-31 | 2026-11-01 | 1,051 | $201,877,784 |
 | DCCC | 2026-10-13 | n/a | 345 | $60,946,873 |
 | SMP | no general-election spending | n/a | 0 | $0 |
@@ -247,4 +247,4 @@ These rows were filed under a state or district that disagrees with the candidat
 | North Star | 2026-10-30 | 2026-10-31 | 42 | $10,453,065 |
 | The Georgia Way | 2026-09-29 | 2026-10-15 | 7 | $6,058,657 |
 | DSCC | 2026-10-14 | n/a | 258 | $38,384,907 |
-| Other D | 2026-11-09 | 2026-11-13 | 21,333 | $798,443,766 |
+| Other D | 2026-11-09 | 2026-11-13 | 21,328 | $798,440,306 |
